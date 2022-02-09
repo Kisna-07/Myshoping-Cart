@@ -1,0 +1,35 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading display-5">{{ product.name }}&emsp;<span class="text-muted"><a
+                        href="{{ product.category.get_absolute_url }}" class="btn btn-secondary btn-md active"
+                        role="button" aria-pressed="true">{{product.category }}</a></span></h2>
+            <p class="lead">{{ product.description|linebreaks }}</p>
+            <button type="button" class="pricing-card-title">${{ product.price }}</button><br><br>
+            <div class="form-group">
+                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    &emsp;
+                    <input type="submit" class="btn btn-outline-dark btn-sm" value="Add to cart">
+                </form>
+            </div>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image mx-auto img-thumbnail" src="{% if product.image %}{{ product.image.url }}{% else %}
+        {% static '' img/no_image.png' %}{% endif %}" width="300" height="300">
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
